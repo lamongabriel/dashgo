@@ -1,11 +1,15 @@
 import { Flex, Button, Stack } from '@chakra-ui/react'
 import { Input } from '../components/Form/Input'
+import { Logo } from '../components/Logo'
 
 export default function Home () {
 	return (
 		<Flex w='100vw' minH='100vh' align='center' justify='center'>
 			<Flex as='form' w='full' maxW='360px' p={8} rounded={8} flexDir='column' bg='gray.800'>
 				<Stack spacing={4}>
+
+					<Logo w='full' textAlign='center' />
+
 					<Input
 						name='email'
 						type='email'
