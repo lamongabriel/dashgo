@@ -34,6 +34,7 @@ module.exports = {
 			'error',
 			'never'
 		],
+		'react/no-unescaped-entities': 'off',
 		'import/no-anonymous-default-export': 'off'
 	}
 }
