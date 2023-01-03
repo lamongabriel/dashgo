@@ -35,6 +35,7 @@ module.exports = {
 			'never'
 		],
 		'react/no-unescaped-entities': 'off',
-		'import/no-anonymous-default-export': 'off'
+		'import/no-anonymous-default-export': 'off',
+		'react-hooks/exhaustive-deps': 'off',
 	}
 }
