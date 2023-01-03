@@ -17,6 +17,7 @@ import {
 import { Layout } from '../../components/Layout'
 
 import { RiAddLine } from 'react-icons/ri'
+import { Pagination } from '../../components/Pagination'
 
 export default function UserList () {
 	return (
@@ -61,6 +62,7 @@ export default function UserList () {
 						</Tr>
 					</Tbody>
 				</Table>
+				<Pagination />
 			</Box>
 		</Layout>
 	)
