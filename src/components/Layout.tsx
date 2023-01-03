@@ -9,9 +9,9 @@ interface LayoutProps {
 
 export function Layout ({children}: LayoutProps) {
 	return (
-		<Flex flexDir='column' minHeight='100vh' w='100vw' overflowX='hidden'>
+		<Flex flexDir='column' minHeight='100vh' w='100vw' overflowX='hidden' maxWidth="1480px" mx='auto'>
 			<Header />
-			<Flex w='100%' my={6} mx='auto' px={6} maxWidth="1480px" >
+			<Flex w='100%' my={6} px={6}>
 				{children}
 			</Flex>
 		</Flex>

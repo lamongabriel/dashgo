@@ -1,9 +1,9 @@
-import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react'
-import { Header } from '../components/Header'
+import { Box, SimpleGrid, Text, theme } from '@chakra-ui/react'
 import { Sidebar } from '../components/Sidebar'
 import dynamic from 'next/dynamic'
 
 import { ApexOptions } from 'apexcharts'
+import { Layout } from '../components/Layout'
 
 const Chart = dynamic(() => import('react-apexcharts'), {
 	ssr: false
@@ -65,21 +65,18 @@ const series = [
 
 export default function Dashboard () {
 	return (
-		<Flex flexDir='column' minHeight='100vh'>
-			<Header />
-			<Flex w='100%' my={6} maxWidth={1480} mx='auto' px={6}>
-				<Sidebar />
-				<SimpleGrid flex={1} gap={4} minChildWidth='320px' alignItems='flex-start'>
-					<Box p={8} bgColor='gray.800' borderRadius={8} pb={4}>
-						<Text fontSize='lg' mb={4}>This week's subscriptions</Text>
-						<Chart options={options} series={series} type='area' height={160} width={'100%'} />
-					</Box>
-					<Box p={8} bgColor='gray.800' borderRadius={8} pb={4}>
-						<Text fontSize='lg' mb={4}>Opening's ratios</Text>
-						<Chart options={options} series={series} type='area' height={160} width={'100%'} />
-					</Box>
-				</SimpleGrid>
-			</Flex>
-		</Flex>
+		<Layout>
+			<Sidebar />
+			<SimpleGrid flex={1} gap={4} minChildWidth='320px' alignItems='flex-start'>
+				<Box p={8} bgColor='gray.800' borderRadius={8} pb={4}>
+					<Text fontSize='lg' mb={4}>This week's subscriptions</Text>
+					<Chart options={options} series={series} type='area' height={160} width={'100%'} />
+				</Box>
+				<Box p={8} bgColor='gray.800' borderRadius={8} pb={4}>
+					<Text fontSize='lg' mb={4}>Opening's ratios</Text>
+					<Chart options={options} series={series} type='area' height={160} width={'100%'} />
+				</Box>
+			</SimpleGrid>
+		</Layout>
 	)
 }
