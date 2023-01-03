@@ -1,47 +1,30 @@
-import { Flex, Input, Button, Stack, FormControl, FormLabel, FormHelperText } from '@chakra-ui/react'
+import { Flex, Button, Stack } from '@chakra-ui/react'
+import { Input } from '../components/Form/Input'
 
 export default function Home () {
 	return (
 		<Flex w='100vw' minH='100vh' align='center' justify='center'>
 			<Flex as='form' w='full' maxW='360px' p={8} rounded={8} flexDir='column' bg='gray.800'>
 				<Stack spacing={4}>
+					<Input
+						name='email'
+						type='email'
+						label='E-mail'
 
-					<FormControl>
-						<FormLabel>E-mail</FormLabel>
-						<Input
-							name='email'
-							type='email'
-							autoComplete='email'
-							title='Your e-mail'
+						title='Your e-mail'
+						autoComplete='email'
+					/>
 
-							focusBorderColor='pink.500'
-							bgColor='gray.900'
-							variant='filled'
-							_hover={{
-								bgColor: 'gray.900'
-							}}
-							size='lg'
-						/>
-					</FormControl>
+					<Input
+						name='password'
+						type='password'
+						label='Password'
 
-					<FormControl>
-						<FormLabel>Password</FormLabel>
-						<Input
-							name='password'
-							type='password'
-							autoComplete='current-password'
-							title='Your password'
+						title='Your password'
+						autoComplete='current-password'
 
-							focusBorderColor='pink.500'
-							bgColor='gray.900'
-							variant='filled'
-							_hover={{
-								bgColor: 'gray.900'
-							}}
-							size='lg'
-						/>
-						<FormHelperText>Encrypted and secure environment.</FormHelperText>
-					</FormControl>
+						helperText='Encrypted and secure environment.'
+					/>
 				</Stack>
 				<Button
 					type='submit'
