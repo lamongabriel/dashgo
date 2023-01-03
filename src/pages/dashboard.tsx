@@ -1,5 +1,4 @@
 import { Box, SimpleGrid, Text, theme } from '@chakra-ui/react'
-import { Sidebar } from '../components/Sidebar'
 import dynamic from 'next/dynamic'
 
 import { ApexOptions } from 'apexcharts'
@@ -66,7 +65,6 @@ const series = [
 export default function Dashboard () {
 	return (
 		<Layout>
-			<Sidebar />
 			<SimpleGrid flex={1} gap={4} minChildWidth='320px' alignItems='flex-start'>
 				<Box p={8} bgColor='gray.800' borderRadius={8} pb={4}>
 					<Text fontSize='lg' mb={4}>This week's subscriptions</Text>
