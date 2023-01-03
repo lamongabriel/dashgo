@@ -6,7 +6,7 @@ export function Logo ({...rest}: TextProps) {
 			fontSize='3xl'
 			fontWeight='bold'
 			letterSpacing='tight'
-			w={64}
+			w={48}
 			{...rest}
 		>
 			dashgo<Text color='pink.500' as='span'>.</Text>
