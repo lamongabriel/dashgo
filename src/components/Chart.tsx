@@ -16,6 +16,11 @@ const options: ApexOptions = {
 			enabled: false
 		},
 		foreColor: theme.colors.gray[500],
+		events: {
+			mounted(chart) {
+				chart.windowResizeHandler()
+			},
+		}
 	},
 	grid: {
 		show: false
@@ -64,7 +69,7 @@ const series = [
 
 export function Chart () {
 	return (
-		<Box p={[6, 8]} bgColor='gray.800' borderRadius={8} pb={4}>
+		<Box p={[6, 8]} bgColor='gray.800' borderRadius={8} pb={4} overflow='hidden'>
 			<Text fontSize='lg' mb={4}>This week's subscriptions</Text>
 			<ApexChart options={options} series={series} type='area' height={160} width={'100%'} />
 		</Box>

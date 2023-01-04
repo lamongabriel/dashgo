@@ -35,7 +35,7 @@ export default function UserList () {
 				borderRadius={8}
 				bg='gray.800'
 				p={8}
-				overflow={isWideVersion ? 'hidden' : 'scroll'}
+				overflow={isWideVersion ? 'hidden' : 'auto'}
 				whiteSpace={isWideVersion ? 'normal' : 'nowrap'}
 			>
 				<Flex mb={8} justify='space-between' align='center'>
