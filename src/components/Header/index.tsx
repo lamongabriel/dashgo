@@ -34,7 +34,7 @@ export function Header () {
 				/>
 			)}
 
-			<Link href='/dashboard'><Logo /></Link>
+			<Link href='/dashboard'><Logo w={48} /></Link>
 
 			{isWideVersion && <Search />}
 
