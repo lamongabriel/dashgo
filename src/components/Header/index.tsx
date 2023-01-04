@@ -34,7 +34,7 @@ export function Header () {
 				/>
 			)}
 
-			<Link href='/dashboard'><Logo w={isWideVersion ? 48 : 'auto'} /></Link>
+			<Link href='/dashboard'><Logo w={isWideVersion ? 48 : 'auto'} fontSize={['2xl', '3xl']} /></Link>
 
 			{isWideVersion && <Search />}
 

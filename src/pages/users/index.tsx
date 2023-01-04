@@ -11,7 +11,8 @@ import {
 	Th,
 	Thead,
 	Tr,
-	Text
+	Text,
+	useBreakpointValue
 } from '@chakra-ui/react'
 
 import { Layout } from '../../components/Layout'
@@ -20,9 +21,15 @@ import { RiAddLine } from 'react-icons/ri'
 import { Pagination } from '../../components/Pagination'
 
 export default function UserList () {
+
+	const isWideVersion = useBreakpointValue({
+		base: false,
+		lg: true
+	})
+
 	return (
 		<Layout>
-			<Box flex={1} borderRadius={8} bg='gray.800' p={8}>
+			<Box flex={1} borderRadius={8} bg='gray.800' p={8} overflow={isWideVersion ? 'hidden' : 'scroll'}>
 				<Flex mb={8} justify='space-between' align='center'>
 					<Heading size='lg' fontWeight='normal'>
 						Users
