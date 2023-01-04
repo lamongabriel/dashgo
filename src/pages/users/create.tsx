@@ -13,13 +13,13 @@ import { Layout } from '../../components/Layout'
 export default function UserList () {
 	return (
 		<Layout>
-			<Box flex={1} borderRadius={8} bg='gray.800' p={8}>
+			<Box flex={1} borderRadius={8} bg='gray.800' p={[6, 8]}>
 				<Heading size='lg' fontWeight='normal'>
 					Create new user
 				</Heading>
 				<Divider my={6} borderColor='gray.700' />
 				<Box as='form'>
-					<SimpleGrid minChildWidth='300px' alignItems='center' justifyContent='between' gap={8}>
+					<SimpleGrid minChildWidth='220px' alignItems='center' justifyContent='between' spacing={[6, 8]}>
 						<Input
 							id='name'
 							name='name'
@@ -41,7 +41,7 @@ export default function UserList () {
 							autoComplete='email'
 						/>
 					</SimpleGrid>
-					<SimpleGrid minChildWidth='300px' alignItems='center' justifyContent='between' gap={8} mt={6}>
+					<SimpleGrid minChildWidth='220px' alignItems='center' justifyContent='between' spacing={[6, 8]} mt={6}>
 						<Input
 							id='password'
 							name='password'
