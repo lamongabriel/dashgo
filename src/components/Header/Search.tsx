@@ -8,7 +8,7 @@ export function Search () {
 			flex={1}
 			py={4}
 			px={8}
-			ml={6}
+			ml={8}
 			maxW='400px'
 			alignSelf='center'
 			position='relative'
