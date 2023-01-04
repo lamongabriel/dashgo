@@ -1,5 +1,12 @@
-import { FormControl, FormHelperText, FormLabel, Input as CInput, InputProps as CInputProps } from '@chakra-ui/react'
+import { forwardRef, ForwardRefRenderFunction } from 'react'
 
+import {
+	FormControl,
+	FormHelperText,
+	FormLabel,
+	Input as CInput,
+	InputProps as CInputProps
+} from '@chakra-ui/react'
 
 interface InputProps extends CInputProps {
 	name: string
@@ -7,7 +14,10 @@ interface InputProps extends CInputProps {
 	helperText?: string
 }
 
-export function Input ({ name, helperText, label, isRequired, ...rest }: InputProps) {
+const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+	{ name, helperText, label, isRequired, ...rest },
+	ref
+) => {
 	return (
 		<FormControl isRequired={isRequired}>
 			{label && (
@@ -17,6 +27,7 @@ export function Input ({ name, helperText, label, isRequired, ...rest }: InputPr
 				id={name}
 				name={name}
 				required={isRequired}
+				ref={ref}
 
 				focusBorderColor='pink.500'
 				bgColor='gray.900'
@@ -34,3 +45,5 @@ export function Input ({ name, helperText, label, isRequired, ...rest }: InputPr
 		</FormControl>
 	)
 }
+
+export const Input = forwardRef(InputBase)

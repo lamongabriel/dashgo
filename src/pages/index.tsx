@@ -1,26 +1,49 @@
 import { Flex, Button, Stack } from '@chakra-ui/react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+
 import { Input } from '../components/Form/Input'
 import { Logo } from '../components/Logo'
 
+interface FormData {
+	email: string
+	password: string
+}
+
 export default function Home () {
+
+	const { register, handleSubmit, formState } = useForm<FormData>()
+
+	const onSubmit: SubmitHandler<FormData> = data => {
+		console.log(data)
+	}
+
 	return (
 		<Flex w='100vw' minH='100vh' align='center' justify='center'>
-			<Flex as='form' w='full' maxW='360px' p={8} rounded={8} flexDir='column' bg='gray.800'>
+			<Flex
+				as='form'
+				onSubmit={handleSubmit(onSubmit)}
+				w='full'
+				maxW='360px'
+				p={8}
+				rounded={8}
+				flexDir='column'
+				bg='gray.800'
+			>
 				<Stack spacing={4}>
 
 					<Logo w='full' textAlign='center' />
 
 					<Input
-						name='email'
 						type='email'
 						label='E-mail'
 
 						title='Your e-mail'
 						autoComplete='email'
+
+						{...register('email')}
 					/>
 
 					<Input
-						name='password'
 						type='password'
 						label='Password'
 
@@ -28,6 +51,8 @@ export default function Home () {
 						autoComplete='current-password'
 
 						helperText='Encrypted and secure environment.'
+
+						{...register('password')}
 					/>
 				</Stack>
 				<Button
@@ -37,7 +62,11 @@ export default function Home () {
 					mt={6}
 					colorScheme='pink'
 					size='lg'
-				>Login</Button>
+
+					isLoading={formState.isSubmitting}
+				>
+					Login
+				</Button>
 			</Flex>
 		</Flex>
 	)
