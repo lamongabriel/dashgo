@@ -19,6 +19,7 @@ import { Layout } from '../../components/Layout'
 
 import { RiAddLine } from 'react-icons/ri'
 import { Pagination } from '../../components/Pagination'
+import Link from 'next/link'
 
 export default function UserList () {
 
@@ -29,12 +30,25 @@ export default function UserList () {
 
 	return (
 		<Layout>
-			<Box flex={1} borderRadius={8} bg='gray.800' p={8} overflow={isWideVersion ? 'hidden' : 'scroll'}>
+			<Box
+				flex={1}
+				borderRadius={8}
+				bg='gray.800'
+				p={8}
+				overflow={isWideVersion ? 'hidden' : 'scroll'}
+				whiteSpace={isWideVersion ? 'normal' : 'nowrap'}
+			>
 				<Flex mb={8} justify='space-between' align='center'>
 					<Heading size='lg' fontWeight='normal'>
 						Users
 					</Heading>
-					<Button as='a' size='sm' fontSize='sm' colorScheme='pink' leftIcon={<Icon fontSize={20} as={RiAddLine} />}>
+					<Button
+						as={Link}
+						href='/users/create'
+						size='sm'
+						fontSize='sm'
+						colorScheme='pink'
+						leftIcon={<Icon fontSize={20} as={RiAddLine} />}>
 						New
 					</Button>
 				</Flex>

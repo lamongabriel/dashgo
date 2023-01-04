@@ -6,6 +6,7 @@ import {
 	Heading,
 	SimpleGrid,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import { Input } from '../../components/Form/Input'
 
 import { Layout } from '../../components/Layout'
@@ -65,6 +66,8 @@ export default function UserList () {
 					</SimpleGrid>
 					<Flex gap={4} align='center' justify='flex-end' mt={8}>
 						<Button
+							as={Link}
+							href='/users'
 							type='button'
 							colorScheme='whiteAlpha'
 						>
