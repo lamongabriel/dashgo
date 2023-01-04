@@ -1,7 +1,9 @@
 import { forwardRef, ForwardRefRenderFunction } from 'react'
+import { FieldError } from 'react-hook-form'
 
 import {
 	FormControl,
+	FormErrorMessage,
 	FormHelperText,
 	FormLabel,
 	Input as CInput,
@@ -12,14 +14,15 @@ interface InputProps extends CInputProps {
 	name: string
 	label?: string
 	helperText?: string
+	errors?: FieldError
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-	{ name, helperText, label, isRequired, ...rest },
+	{ name, helperText, label, isRequired, errors = null, ...rest },
 	ref
 ) => {
 	return (
-		<FormControl isRequired={isRequired}>
+		<FormControl isRequired={isRequired} isInvalid={!!errors}>
 			{label && (
 				<FormLabel htmlFor={name}>{label}</FormLabel>
 			)}
@@ -39,6 +42,13 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
 
 				{...rest}
 			/>
+
+			{!!errors && (
+				<FormErrorMessage>
+					{errors.message}
+				</FormErrorMessage>
+			)}
+
 			{helperText && (
 				<FormHelperText>{helperText}</FormHelperText>
 			)}

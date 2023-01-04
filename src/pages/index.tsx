@@ -40,7 +40,10 @@ export default function Home () {
 						title='Your e-mail'
 						autoComplete='email'
 
-						{...register('email')}
+						errors={formState.errors.email}
+						{...register('email', {
+							required: 'Field required.'
+						})}
 					/>
 
 					<Input
