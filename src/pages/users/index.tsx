@@ -1,3 +1,6 @@
+import Link from 'next/link'
+import { useQuery } from 'react-query'
+
 import {
 	Box,
 	Button,
@@ -12,16 +15,23 @@ import {
 	Thead,
 	Tr,
 	Text,
-	useBreakpointValue
+	useBreakpointValue,
+	Spinner
 } from '@chakra-ui/react'
 
 import { Layout } from '../../components/Layout'
+import { Pagination } from '../../components/Pagination'
 
 import { RiAddLine } from 'react-icons/ri'
-import { Pagination } from '../../components/Pagination'
-import Link from 'next/link'
 
 export default function UserList () {
+
+	const { data, isLoading, error } = useQuery('users', async () => {
+		const response = await fetch('http://localhost:3000/api/users')
+		const data = await response.json()
+
+		return data
+	})
 
 	const isWideVersion = useBreakpointValue({
 		base: false,
@@ -52,38 +62,50 @@ export default function UserList () {
 						New
 					</Button>
 				</Flex>
-				<Table colorScheme='whiteAlpha'>
-					<Thead>
-						<Tr>
-							<Th px={6} color='gray.300' width={8}>
-								<Checkbox colorScheme='pink'/>
-							</Th>
-							<Th>
+				{	isLoading ? (
+					<Flex justify='center'>
+						<Spinner />
+					</Flex>
+				) : error ? (
+					<Flex justify='center'>
+						<Text>Failed loading data.</Text>
+					</Flex>
+				) : (
+					<>
+						<Table colorScheme='whiteAlpha'>
+							<Thead>
+								<Tr>
+									<Th px={6} color='gray.300' width={8}>
+										<Checkbox colorScheme='pink'/>
+									</Th>
+									<Th>
 								USER
-							</Th>
-							<Th>
+									</Th>
+									<Th>
 								JOIN DATE
-							</Th>
-						</Tr>
-					</Thead>
-					<Tbody>
-						<Tr>
-							<Td px={6}>
-								<Checkbox colorScheme='pink'/>
-							</Td>
-							<Td>
-								<Box>
-									<Text fontWeight='bold'>Gabriel Lamon</Text>
-									<Text fontSize='small' color='gray.300'>gabriel-lamon@outlook.com</Text>
-								</Box>
-							</Td>
-							<Td>
+									</Th>
+								</Tr>
+							</Thead>
+							<Tbody>
+								<Tr>
+									<Td px={6}>
+										<Checkbox colorScheme='pink'/>
+									</Td>
+									<Td>
+										<Box>
+											<Text fontWeight='bold'>Gabriel Lamon</Text>
+											<Text fontSize='small' color='gray.300'>gabriel-lamon@outlook.com</Text>
+										</Box>
+									</Td>
+									<Td>
 								May 11, 2013
-							</Td>
-						</Tr>
-					</Tbody>
-				</Table>
-				<Pagination />
+									</Td>
+								</Tr>
+							</Tbody>
+						</Table>
+						<Pagination />
+					</>
+				)}
 			</Box>
 		</Layout>
 	)

@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 
+import { QueryClientProvider, QueryClient  } from 'react-query'
 import { ChakraProvider } from '@chakra-ui/react'
 import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContext'
 
@@ -11,12 +12,16 @@ if(process.env.NODE_ENV === 'development') {
 	mirageServer()
 }
 
+const queryClient = new QueryClient()
+
 export default function App({ Component, pageProps }: AppProps) {
 	return (
-		<ChakraProvider theme={theme}>
-			<SidebarDrawerProvider>
-				<Component {...pageProps} />
-			</SidebarDrawerProvider>
-		</ChakraProvider>
+		<QueryClientProvider client={queryClient}>
+			<ChakraProvider theme={theme}>
+				<SidebarDrawerProvider>
+					<Component {...pageProps} />
+				</SidebarDrawerProvider>
+			</ChakraProvider>
+		</QueryClientProvider>
 	)
 }
