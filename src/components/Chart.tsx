@@ -1,5 +1,5 @@
 import { Box, Text, theme } from '@chakra-ui/react'
-import { Slide, Fade } from 'react-awesome-reveal'
+import { Fade } from 'react-awesome-reveal'
 import { ApexOptions } from 'apexcharts'
 
 import dynamic from 'next/dynamic'
