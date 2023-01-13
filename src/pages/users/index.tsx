@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { useQuery } from 'react-query'
 
 import {
 	Box,
@@ -24,23 +23,11 @@ import { Pagination } from '../../components/Pagination'
 
 import { RiAddLine } from 'react-icons/ri'
 import { User } from '../../types/user'
-import { api } from '../../services/api'
+import { useUsers } from '../../hooks/useUsers'
 
 export default function UserList() {
 
-	const { data, isLoading, isFetching, error } = useQuery('users', async () => {
-		const { data } = await api.get('/users')
-
-		const users = data.users.map((user: User) => (
-			{
-				...user,
-				createdAt: new Date(user.createdAt).toLocaleDateString('en-US', {day: '2-digit', month: 'long', year: 'numeric'})
-			}
-		))
-
-		return users.length > 0 ? users : []
-	})
-
+	const { data, isLoading, isFetching, error } = useUsers()
 	const isWideVersion = useBreakpointValue({
 		base: false,
 		lg: true
@@ -96,22 +83,24 @@ export default function UserList() {
 								</Tr>
 							</Thead>
 							<Tbody>
-								{data.map((user: User, index: number) => (
-									<Tr key={index}>
-										<Td px={6}>
-											<Checkbox colorScheme='pink' />
-										</Td>
-										<Td>
-											<Box>
-												<Text fontWeight='bold'>{user.name}</Text>
-												<Text fontSize='small' color='gray.300'>{user.email}</Text>
-											</Box>
-										</Td>
-										<Td>
-											{user.createdAt}
-										</Td>
-									</Tr>
-								))}
+								{data && data.length > 0 && (
+									data.map((user: User, index: number) => (
+										<Tr key={index}>
+											<Td px={6}>
+												<Checkbox colorScheme='pink' />
+											</Td>
+											<Td>
+												<Box>
+													<Text fontWeight='bold'>{user.name}</Text>
+													<Text fontSize='small' color='gray.300'>{user.email}</Text>
+												</Box>
+											</Td>
+											<Td>
+												{user.createdAt}
+											</Td>
+										</Tr>
+									))
+								)}
 							</Tbody>
 						</Table>
 						<Pagination />
