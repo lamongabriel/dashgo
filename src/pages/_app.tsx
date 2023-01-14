@@ -2,7 +2,8 @@ import type { AppProps } from 'next/app'
 
 import { ReactQueryDevtools } from 'react-query/devtools'
 
-import { QueryClientProvider, QueryClient  } from 'react-query'
+import { QueryClientProvider } from 'react-query'
+import { queryClient } from '../services/queryClient'
 import { ChakraProvider } from '@chakra-ui/react'
 import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContext'
 
@@ -13,8 +14,6 @@ import { mirageServer } from '../services/mirage'
 if(process.env.NODE_ENV === 'development') {
 	mirageServer()
 }
-
-const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (

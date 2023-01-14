@@ -1,4 +1,7 @@
-import Link from 'next/link'
+import { useState } from 'react'
+import NextLink from 'next/link'
+
+import { useUsers } from '../../hooks/useUsers'
 
 import {
 	Box,
@@ -15,16 +18,19 @@ import {
 	Tr,
 	Text,
 	useBreakpointValue,
-	Spinner
+	Spinner,
+	Link
 } from '@chakra-ui/react'
 
 import { Layout } from '../../components/Layout'
 import { Pagination } from '../../components/Pagination'
 
 import { RiAddLine } from 'react-icons/ri'
+
 import { User } from '../../types/user'
-import { useUsers } from '../../hooks/useUsers'
-import { useState } from 'react'
+
+import { queryClient } from '../../services/queryClient'
+import { api } from '../../services/api'
 
 export default function UserList() {
 	const [page, setPage] = useState(1)
@@ -34,6 +40,18 @@ export default function UserList() {
 		base: false,
 		lg: true
 	})
+
+	async function handlePrefetchUser (userId: number) {
+		await queryClient.prefetchQuery(['user', userId], async () => {
+			const { data } = await api.get(`users/${userId}`)
+
+			return data
+		},
+		{
+			staleTime: 1000 * 60 * 10, // 10 minutes
+		}
+		)
+	}
 
 	return (
 		<Layout>
@@ -51,7 +69,7 @@ export default function UserList() {
 						{!isLoading && isFetching && <Spinner size='sm' color='gray.500' ml={4} />}
 					</Heading>
 					<Button
-						as={Link}
+						as={NextLink}
 						href='/users/create'
 						size='sm'
 						fontSize='sm'
@@ -93,7 +111,9 @@ export default function UserList() {
 											</Td>
 											<Td>
 												<Box>
-													<Text fontWeight='bold'>{user.name}</Text>
+													<Link color='purple.400' onMouseEnter={() => handlePrefetchUser(user.id)}>
+														<Text fontWeight='bold'>{user.name}</Text>
+													</Link>
 													<Text fontSize='small' color='gray.300'>{user.email}</Text>
 												</Box>
 											</Td>

@@ -11,6 +11,9 @@ export function mirageServer () {
 
 		factories: {
 			user: Factory.extend({
+				id(i) {
+					return i
+				},
 				name() {
 					return faker.name.fullName()
 				},
@@ -49,6 +52,7 @@ export function mirageServer () {
 				)
 			})
 
+			this.get('/users/:id')
 			this.post('/users')
 
 			this.namespace = ''
