@@ -45,13 +45,17 @@ export function Pagination ({
 			align='center'
 		>
 			<Box>
-				<strong>0</strong> - <strong>10</strong> of <strong>100</strong>
+				<strong>{(currentPage - 1) * registerPerPage}</strong>
+				{' - '}
+				<strong>{currentPage === lastPage ? totalCountOfRegisters : currentPage * registerPerPage}</strong>
+				{' of '}
+				<strong>{totalCountOfRegisters}</strong>.
 			</Box>
 			<Stack direction='row' spacing={2}>
 
 				{currentPage > (1 + siblingsCount) && (
 					<>
-						<PaginationItem pageNumber={1} />
+						<PaginationItem onPageChange={onPageChange} pageNumber={1} />
 						{(currentPage - siblingsCount) > 2 && (
 							<Text color='gray.300' w={8} textAlign='center'>...</Text>
 						)}
@@ -59,13 +63,13 @@ export function Pagination ({
 				)}
 
 				{previousPages.map(page => (
-					<PaginationItem key={page} pageNumber={page} />
+					<PaginationItem onPageChange={onPageChange} key={page} pageNumber={page} />
 				))}
 
-				<PaginationItem pageNumber={currentPage} isCurrent/>
+				<PaginationItem onPageChange={onPageChange} pageNumber={currentPage} isCurrent/>
 
 				{nextPages.map(page => (
-					<PaginationItem key={page} pageNumber={page} />
+					<PaginationItem onPageChange={onPageChange} key={page} pageNumber={page} />
 				))}
 
 				{(currentPage + siblingsCount) < lastPage && (
@@ -73,7 +77,7 @@ export function Pagination ({
 						{lastPage - 1 > (currentPage + siblingsCount) && (
 							<Text color='gray.300' w={8} textAlign='center'>...</Text>
 						)}
-						<PaginationItem pageNumber={lastPage} />
+						<PaginationItem onPageChange={onPageChange} pageNumber={lastPage} />
 					</>
 				)}
 

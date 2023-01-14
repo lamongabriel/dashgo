@@ -24,7 +24,7 @@ export function mirageServer () {
 		},
 
 		seeds(server) {
-			server.createList('user', 200)
+			server.createList('user', 198)
 		},
 
 		routes() {
