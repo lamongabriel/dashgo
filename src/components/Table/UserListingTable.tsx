@@ -115,7 +115,7 @@ export function UserListingTable() {
 											</Box>
 										</Td>
 										<Td>
-											{user.createdAt}
+											{user.created_at}
 										</Td>
 									</Tr>
 								))
