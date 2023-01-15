@@ -1,5 +1,8 @@
-import { SimpleGrid, Flex, Button, Box, Divider, Heading } from '@chakra-ui/react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useMutation } from 'react-query'
+
+import { SimpleGrid, Flex, Button, Box, Divider, Heading } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import * as yup from 'yup'
@@ -7,28 +10,48 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Input } from './Input'
 
+import { api } from '../../services/api'
+import { queryClient } from '../../services/queryClient'
+
 interface FormData {
-	fullName: string
+	name: string
 	email: string
 	password: string
-	passwordConfirmation: string
+	password_confirmation: string
 }
 
 const createUserFormSchema = yup.object().shape({
-	fullName: yup.string().required('Full name is required.'),
+	name: yup.string().required('Full name is required.'),
 	email: yup.string().required('E-mail is required.').email('Must be a valid E-mail.'),
 	password: yup.string().required('Password is required.').min(6, 'Must be at least 6 characters.'),
-	passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+	password_confirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
 })
 
 export function CreateUserForm() {
+	const router = useRouter()
+
+	const createUser = useMutation(async (user: FormData) => {
+		const response = await api.post('/users', {
+			user: {
+				...user,
+				created_at: new Date(),
+			}
+		})
+
+		return response.data.user
+	}, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('users')
+		}
+	})
 
 	const { register, handleSubmit, formState } = useForm<FormData>({
 		resolver: yupResolver(createUserFormSchema)
 	})
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
-		await new Promise(resolve => setTimeout(resolve, 2000))
+		await createUser.mutateAsync(data)
+		router.push('/users')
 	}
 
 	return (
@@ -43,15 +66,15 @@ export function CreateUserForm() {
 			<Box as='form' onSubmit={handleSubmit(onSubmit)}>
 				<SimpleGrid minChildWidth='220px' alignItems='start' justifyContent='between' spacing={[6, 8]}>
 					<Input
-						id='fullName'
+						id='name'
 						type='text'
 						label='Full name'
 
 						title='Full name'
 						autoComplete='name'
 
-						errors={formState.errors.fullName}
-						{...register('fullName')}
+						errors={formState.errors.name}
+						{...register('name')}
 					/>
 					<Input
 						id='email'
@@ -78,15 +101,15 @@ export function CreateUserForm() {
 						{...register('password')}
 					/>
 					<Input
-						id='passwordConfirmation'
+						id='password_confirmation'
 						type='password'
 						label='Password Confirmation'
 
 						title='Password Confirmation'
 						autoComplete='new-password'
 
-						errors={formState.errors.passwordConfirmation}
-						{...register('passwordConfirmation')}
+						errors={formState.errors.password_confirmation}
+						{...register('password_confirmation')}
 					/>
 				</SimpleGrid>
 				<Flex gap={4} align='center' justify='flex-end' mt={8}>

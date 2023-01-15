@@ -24,7 +24,7 @@ export function mirageServer () {
 				email() {
 					return faker.internet.email().toLowerCase()
 				},
-				createdAt() {
+				created_at() {
 					return faker.date.recent(10)
 				}
 			})
@@ -47,7 +47,9 @@ export function mirageServer () {
 				const pageEnd = pageStart + Number(per_page)
 
 				const results = schema.all('user')
-				const users = this.serialize(results).users.slice(pageStart, pageEnd)
+				const users = this.serialize(results).users
+					.sort((a, b) => a.created_at > b.created_at ? 1 : -1)
+					.slice(pageStart, pageEnd)
 
 				return new Response(
 					200,
