@@ -60,9 +60,12 @@ export function mirageServer () {
 
 			this.get('/users/:id')
 			this.post('/users')
+			this.passthrough(process.env.NEXT_PUBLIC_PASSTHROUGH_URL as string)
 
 			this.namespace = ''
 			this.passthrough()
+
+			return
 		}
 	})
 
