@@ -1,5 +1,8 @@
-import { useRouter } from 'next/router'
 import { createContext, ReactNode, useState } from 'react'
+import { useRouter } from 'next/router'
+
+import { setCookie } from 'nookies'
+
 import { api } from '../services/api'
 
 interface User {
@@ -36,7 +39,19 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 		try {
 			const response = await api.post('/sessions', {email, password})
 
-			const {permitions, roles} = response.data
+			const {token, refreshToken, permitions, roles} = response.data
+
+			console.log(response.data)
+
+			setCookie(undefined, 'dashgo@token', token, {
+				maxAge: 60 * 60 * 24, // 24 hours
+				path: '/'
+			})
+
+			setCookie(undefined, 'dashgo@refreshToken', refreshToken, {
+				maxAge: 60 * 60 * 24, // 24 hours
+				path: '/'
+			})
 
 			setUser({email, permitions, roles})
 
