@@ -1,13 +1,13 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { setCookie } from 'nookies'
+import { setCookie, parseCookies } from 'nookies'
 
 import { api } from '../services/api'
 
 interface User {
 	email: string
-	permitions: string[]
+	permissions: string[]
 	roles: string[]
 }
 
@@ -35,11 +35,26 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 
 	const router = useRouter()
 
+	useEffect(() => {
+		const cookies = parseCookies()
+
+		const {'dashgo@token': token} = cookies
+
+		if(token){
+			api.get('/me').then(response => {
+				const {email, permissions, roles} = response.data
+
+				setUser({email, permissions, roles})
+			})
+		}
+
+	}, [])
+
 	async function signIn ({email, password}: SignInCredentials) {
 		try {
 			const response = await api.post('/sessions', {email, password})
 
-			const {token, refreshToken, permitions, roles} = response.data
+			const {token, refreshToken, permissions, roles} = response.data
 
 			console.log(response.data)
 
@@ -53,7 +68,9 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 				path: '/'
 			})
 
-			setUser({email, permitions, roles})
+			setUser({email, permissions, roles})
+
+			api.defaults.headers['Authorization'] = `Bearer ${token}`
 
 			router.push('/dashboard')
 		} catch (err){
