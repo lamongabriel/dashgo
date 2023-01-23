@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Input } from './Input'
 
-import { api } from '../../services/api'
+import axios  from 'axios'
 import { queryClient } from '../../services/queryClient'
 
 interface FormData {
@@ -31,7 +31,7 @@ export function CreateUserForm() {
 	const router = useRouter()
 
 	const createUser = useMutation(async (user: FormData) => {
-		const response = await api.post('/users', {
+		const response = await axios.post('/api/users', {
 			user: {
 				...user,
 				created_at: new Date(),

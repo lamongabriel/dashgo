@@ -25,7 +25,7 @@ import { Pagination } from '../../components/Pagination'
 
 import { useUsers } from '../../hooks/useUsers'
 import { queryClient } from '../../services/queryClient'
-import { api } from '../../services/api'
+import axios from 'axios'
 import { User } from '../../types/user'
 
 export function UserListingTable() {
@@ -41,7 +41,7 @@ export function UserListingTable() {
 
 	async function handlePrefetchUser(userId: string) {
 		await queryClient.prefetchQuery(['user', userId], async () => {
-			const { data } = await api.get(`users/${userId}`)
+			const { data } = await axios.get(`/api/users/${userId}`)
 
 			return data
 		},

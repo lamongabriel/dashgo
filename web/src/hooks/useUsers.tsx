@@ -1,6 +1,6 @@
 import { User } from '../types/user'
 import { useQuery } from 'react-query'
-import { api } from '../services/api'
+import axios from 'axios'
 
 interface getUsersResponse {
 	totalCount: number
@@ -8,7 +8,7 @@ interface getUsersResponse {
 }
 
 export async function getUsers (page: number): Promise<getUsersResponse> {
-	const { data, headers } = await api.get('/users', {
+	const { data, headers } = await axios.get('/api/users', {
 		params: {
 			page
 		}
