@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { Input } from './Input'
 import { Logo } from '../Logo'
+import { useAuth } from '../../hooks/useAuth'
 
 interface FormData {
 	email: string
@@ -19,12 +20,14 @@ const signInFormSchema = yup.object().shape({
 
 export function LoginForm () {
 
+	const { signIn } = useAuth()
+
 	const { register, handleSubmit, formState } = useForm<FormData>({
 		resolver: yupResolver(signInFormSchema)
 	})
 
-	const onSubmit: SubmitHandler<FormData> = data => {
-		console.log(data)
+	const onSubmit: SubmitHandler<FormData> = async data => {
+		await signIn(data)
 	}
 
 	return (

@@ -11,6 +11,7 @@ import { theme } from '../styles/theme'
 import '../styles/global.css'
 
 import { mirageServer } from '../services/mirage'
+import { AuthContextProvider } from '../contexts/AuthContext'
 if(process.env.NODE_ENV === 'development') {
 	mirageServer()
 }
@@ -19,9 +20,11 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ChakraProvider theme={theme}>
-				<SidebarDrawerProvider>
-					<Component {...pageProps} />
-				</SidebarDrawerProvider>
+				<AuthContextProvider>
+					<SidebarDrawerProvider>
+						<Component {...pageProps} />
+					</SidebarDrawerProvider>
+				</AuthContextProvider>
 			</ChakraProvider>
 
 			<ReactQueryDevtools />
