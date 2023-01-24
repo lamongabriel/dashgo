@@ -11,7 +11,7 @@ import '../styles/global.css'
 import { mirageServer } from '../services/mirage'
 import { AuthContextProvider } from '../contexts/AuthContext'
 
-mirageServer()
+// mirageServer()
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
