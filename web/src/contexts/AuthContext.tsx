@@ -79,7 +79,7 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 
 			Router.push('/dashboard')
 		} catch (err){
-			return {err}
+			return err
 		}
 	}
 

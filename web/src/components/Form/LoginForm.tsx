@@ -1,4 +1,4 @@
-import { Flex, Button, Stack } from '@chakra-ui/react'
+import { Flex, Button, Stack, useToast } from '@chakra-ui/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import * as yup from 'yup'
@@ -19,7 +19,7 @@ const signInFormSchema = yup.object().shape({
 })
 
 export function LoginForm () {
-
+	const toast = useToast()
 	const { signIn } = useAuth()
 
 	const { register, handleSubmit, formState } = useForm<FormData>({
@@ -27,7 +27,16 @@ export function LoginForm () {
 	})
 
 	const onSubmit: SubmitHandler<FormData> = async data => {
-		await signIn(data)
+		const err = await signIn(data)
+		if(err){
+			toast({
+				title: 'Error',
+				description: 'Email or password invalid.',
+				status: 'error',
+				duration: 9000,
+				isClosable: true,
+			})
+		}
 	}
 
 	return (

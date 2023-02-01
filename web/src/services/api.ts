@@ -44,6 +44,10 @@ api.interceptors.response.use(response => response, (error: AxiosError) => {
 				}).catch((err) => {
 					failedRequestQueue.forEach(request => request.onSuccess(err))
 					failedRequestQueue = []
+
+					if(typeof window !== 'undefined') {
+						signOut()
+					}
 				}).finally(() => {
 					isRefreshing = false
 				})
@@ -62,7 +66,9 @@ api.interceptors.response.use(response => response, (error: AxiosError) => {
 				})
 			})
 		} else {
-			signOut()
+			if(typeof window !== 'undefined') {
+				signOut()
+			}
 		}
 	}
 
