@@ -1,8 +1,9 @@
 import { SimpleGrid } from '@chakra-ui/react'
+import { GetServerSideProps } from 'next'
 import { Chart } from '../components/Chart'
 
 import { Layout } from '../components/Layout'
-
+import { withSSRAuth } from '../utils/withSSRAuth'
 
 export default function Dashboard () {
 	return (
@@ -14,3 +15,9 @@ export default function Dashboard () {
 		</Layout>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async () => {
+	return {
+		props: {}
+	}
+})

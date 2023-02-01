@@ -1,5 +1,7 @@
 import { Flex } from '@chakra-ui/react'
+import { GetServerSideProps } from 'next'
 import { LoginForm } from '../components/Form/LoginForm'
+import { withSSRGuest } from '../utils/withSSRGuest'
 
 export default function Home () {
 	return (
@@ -8,3 +10,9 @@ export default function Home () {
 		</Flex>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async () => {
+	return {
+		props: {}
+	}
+})

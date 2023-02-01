@@ -17,7 +17,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-	signIn: (credentials: SignInCredentials) => Promise<void>
+	signIn: (credentials: SignInCredentials) => Promise<unknown>
 	isAuth: boolean
 	user: User
 }
@@ -63,8 +63,6 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 
 			const {token, refreshToken, permissions, roles} = response.data
 
-			console.log(response.data)
-
 			setCookie(undefined, 'dashgo@token', token, {
 				maxAge: 60 * 60 * 24, // 24 hours
 				path: '/'
@@ -81,7 +79,7 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 
 			Router.push('/dashboard')
 		} catch (err){
-			console.log(err)
+			return {err}
 		}
 	}
 
