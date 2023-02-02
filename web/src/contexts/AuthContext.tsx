@@ -18,6 +18,7 @@ interface SignInCredentials {
 
 interface AuthContextData {
 	signIn: (credentials: SignInCredentials) => Promise<unknown>
+	signOut: () => void
 	isAuth: boolean
 	user: User
 }
@@ -28,9 +29,13 @@ interface AuthContextProviderProps {
 	children: ReactNode
 }
 
+let authChannel: BroadcastChannel
+
 export function signOut () {
 	destroyCookie(undefined, 'dashgo@token')
 	destroyCookie(undefined, 'dashgo@refreshToken')
+
+	authChannel.postMessage('signOut')
 
 	Router.push('/')
 }
@@ -55,6 +60,19 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 			})
 		}
 
+	}, [])
+
+	useEffect(() => {
+		authChannel = new BroadcastChannel('auth')
+		authChannel.onmessage = (msg) => {
+			switch (msg.data) {
+			case 'signOut':
+				signOut()
+				break
+			default:
+				break
+			}
+		}
 	}, [])
 
 	async function signIn ({email, password}: SignInCredentials) {
@@ -84,7 +102,7 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 	}
 
 	return (
-		<AuthContext.Provider value={{isAuth, signIn, user}}>
+		<AuthContext.Provider value={{isAuth, signIn, user, signOut}}>
 			{children}
 		</AuthContext.Provider>
 	)
