@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { parseCookies, setCookie } from 'nookies'
 import { signOut } from '../contexts/AuthContext'
+import { AuthTokenError } from './errors/AuthTokenError'
 
 let isRefreshing = false
 let failedRequestQueue: any[] = []
@@ -48,7 +49,9 @@ export function setupAPIClient (ctx = undefined) {
 						failedRequestQueue.forEach(request => request.onSuccess(err))
 						failedRequestQueue = []
 
-						if(typeof window !== 'undefined') {
+						if(typeof window === 'undefined') {
+							return Promise.reject(new AuthTokenError())
+						} else {
 							signOut()
 						}
 					}).finally(() => {
@@ -69,7 +72,9 @@ export function setupAPIClient (ctx = undefined) {
 					})
 				})
 			} else {
-				if(typeof window !== 'undefined') {
+				if(typeof window === 'undefined') {
+					return Promise.reject(new AuthTokenError())
+				} else {
 					signOut()
 				}
 			}

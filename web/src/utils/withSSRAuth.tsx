@@ -1,11 +1,19 @@
 import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import { parseCookies } from 'nookies'
+import decode from 'jwt-decode'
+import { validateUserPermissions } from './validateUserPermissions'
 
-export function withSSRAuth<T extends { [key: string]: any }>(fn: GetServerSideProps<T>) {
+interface Options {
+	permissions: string[]
+	roles: string[]
+}
+
+export function withSSRAuth<T extends { [key: string]: any }>(fn: GetServerSideProps<T>, options?: Options) {
 	return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<T>> => {
 		const cookies = parseCookies(ctx)
+		const token = cookies['nextauth.token']
 
-		if(!cookies['nextauth.token']){
+		if(!token){
 			return {
 				redirect: {
 					destination: '/',
@@ -13,6 +21,23 @@ export function withSSRAuth<T extends { [key: string]: any }>(fn: GetServerSideP
 				}
 			}
 		}
+
+		if(options) {
+			const user = decode<{permissions: string[], roles: string[]}>(token)
+			const {permissions, roles} = options
+
+			const hasUserTheRightPermissions = validateUserPermissions({user, permissions, roles})
+
+			if(!hasUserTheRightPermissions){
+				return {
+					redirect: {
+						destination: '/dashboard',
+						permanent: false
+					}
+				}
+			}
+		}
+
 
 		return await fn(ctx)
 	}

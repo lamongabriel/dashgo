@@ -1,3 +1,5 @@
+import { GetServerSideProps } from 'next'
+
 import { CreateUserForm } from '../../components/Form/CreateUserForm'
 
 import { Layout } from '../../components/Layout'
@@ -8,4 +10,10 @@ export default function UserList () {
 			<CreateUserForm />
 		</Layout>
 	)
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	return {
+		props: {}
+	}
 }
