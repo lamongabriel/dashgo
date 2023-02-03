@@ -5,7 +5,7 @@ export function withSSRGuest<T extends { [key: string]: any }>(fn: GetServerSide
 	return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<T>> => {
 		const cookies = parseCookies(ctx)
 
-		if(cookies['nextauth.token']){
+		if(cookies['dashgo@token']){
 			return {
 				redirect: {
 					destination: '/dashboard',

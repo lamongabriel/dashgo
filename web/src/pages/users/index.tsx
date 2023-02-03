@@ -7,7 +7,7 @@ export default function UserList() {
 
 	return (
 		<Layout>
-			<Can permissions={['metrics.list']}>
+			<Can permissions={['users.list']}>
 				<UserListingTable />
 			</Can>
 		</Layout>

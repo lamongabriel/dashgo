@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import decode from 'jwt-decode'
 import { generateJwtAndRefreshToken } from './auth';
 import { auth } from './config';
+import dotenv from 'dotenv'
 
 import { checkRefreshTokenIsValid, users, seedUserStore, invalidateRefreshToken } from './database';
 import { CreateSessionDTO, DecodedToken } from './types';
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors())
+dotenv.config()
 
 seedUserStore();
 
@@ -165,4 +167,4 @@ app.get('/me', checkAuthMiddleware, (request, response) => {
   })
 });
 
-app.listen(3333);
+app.listen(process.env.PORT);

@@ -11,7 +11,7 @@ interface Options {
 export function withSSRAuth<T extends { [key: string]: any }>(fn: GetServerSideProps<T>, options?: Options) {
 	return async (ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<T>> => {
 		const cookies = parseCookies(ctx)
-		const token = cookies['nextauth.token']
+		const token = cookies['dashgo@token']
 
 		if(!token){
 			return {

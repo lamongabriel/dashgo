@@ -29,13 +29,9 @@ interface AuthContextProviderProps {
 	children: ReactNode
 }
 
-let authChannel: BroadcastChannel
-
 export function signOut () {
 	destroyCookie(undefined, 'dashgo@token')
 	destroyCookie(undefined, 'dashgo@refreshToken')
-
-	authChannel.postMessage('signOut')
 
 	Router.push('/')
 }
@@ -62,24 +58,13 @@ export function AuthContextProvider ({children}: AuthContextProviderProps) {
 
 	}, [])
 
-	useEffect(() => {
-		authChannel = new BroadcastChannel('auth')
-		authChannel.onmessage = (msg) => {
-			switch (msg.data) {
-			case 'signOut':
-				signOut()
-				break
-			default:
-				break
-			}
-		}
-	}, [])
-
 	async function signIn ({email, password}: SignInCredentials) {
 		try {
 			const response = await api.post('/sessions', {email, password})
 
-			const {token, refreshToken, permissions, roles} = response.data
+			const { token, refreshToken, permissions, roles } = response.data
+
+			console.log(response.data)
 
 			setCookie(undefined, 'dashgo@token', token, {
 				maxAge: 60 * 60 * 24, // 24 hours
