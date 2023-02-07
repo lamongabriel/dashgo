@@ -1,12 +1,12 @@
 interface User {
-	permissions: string[]
-	roles: string[]
+	permissions?: string[]
+	roles?: string[]
 }
 
 interface validateUserPermissionsParams {
 	user: User
-	roles: string[]
-	permissions: string[]
+	roles?: string[]
+	permissions?: string[]
 }
 
 export function validateUserPermissions (
@@ -14,7 +14,7 @@ export function validateUserPermissions (
 ) {
 	if(permissions?.length > 0) {
 		const hasAllPermissions = permissions.every(permission => {
-			return user.permissions.includes(permission)
+			return user?.permissions?.includes(permission)
 		})
 
 		if(!hasAllPermissions) {
@@ -24,7 +24,7 @@ export function validateUserPermissions (
 
 	if(roles?.length > 0) {
 		const hasRole = roles.some(role => {
-			return user.roles.includes(role)
+			return user?.roles?.includes(role)
 		})
 
 		if(!hasRole) {
