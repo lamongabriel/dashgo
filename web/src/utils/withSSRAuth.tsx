@@ -22,7 +22,7 @@ export function withSSRAuth<T extends { [key: string]: any }>(fn: GetServerSideP
 			}
 		}
 
-		if(options && options.permissions && options.roles) {
+		if(options) {
 			const user = decode<{permissions?: string[], roles?: string[]}>(token)
 			const {permissions, roles} = options
 
